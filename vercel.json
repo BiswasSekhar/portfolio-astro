@@ -4,5 +4,10 @@
   "outputDirectory": "dist",
   "github": {
     "silent": true
-  }
+  },
+  "rewrites": [
+    { "source": "/askktu", "destination": "https://github.com/BiswasSekhar/ASKKTU" },
+    { "source": "/sarvasiksha", "destination": "https://github.com/BiswasSekhar/sarvasikhsa" },
+    { "source": "/yeah", "destination": "https://github.com/yeah-ya" }
+  ]
 }
