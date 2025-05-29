@@ -1,28 +1,38 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TopLayout from '../layouts/TopLayout.astro';
+import BottomLayout from '../layouts/BottomLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { projects } from '../data/projects';
 ---
 
-<MainLayout title="Projects | My Portfolio">
-  <div class="container mx-auto px-4 py-12">
-    <h1 class="text-4xl font-bold mb-2">My Projects</h1>
-    <p class="text-muted-foreground mb-8">A collection of my work and side projects</p>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {projects.map(project => (
-        <ProjectCard project={project} />
-      ))}
-    </div>
-    
-    <div class="mt-12 text-center">
-      <p class="text-muted-foreground">
-        Want to see more? Check out my 
-        <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">
-          GitHub profile
-        </a> 
-        for additional projects and contributions.
-      </p>
-    </div>
-  </div>
-</MainLayout>
+<BaseLayout
+  title="Projects"
+  description="A showcase of my development projects"
+>
+  <main class="flex min-h-[80vh] flex-auto flex-col" transition:animate="slide">
+    <TopLayout>
+      <h2
+        class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0"
+      >
+        My Projects
+      </h2>
+      <p class="mt-2 text-muted-foreground">A collection of my work and side projects</p>
+    </TopLayout>
+    <BottomLayout>
+      <div class="flex w-full flex-wrap justify-center gap-6">
+        {
+          projects.map((project) => (
+            <div class="w-full sm:w-[47%] lg:w-[31%] xl:w-[30%] mb-8 overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+              <ProjectCard project={project} />
+            </div>
+          ))
+        }
+      </div>
+      
+      <div class="text-center mt-12 text-sm text-muted-foreground">
+        <p>Website screenshots are automatically generated using the ScreenshotOne API</p>
+      </div>
+    </BottomLayout>
+  </main>
+</BaseLayout>
