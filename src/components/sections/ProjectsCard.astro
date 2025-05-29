@@ -1,0 +1,26 @@
+---
+import Card from '../Card.astro';
+import ProjectCard from '../ProjectCard.astro';
+import { projects } from '../../data/projects';
+
+// Get only featured projects for the homepage section
+const featuredProjects = projects.filter(project => project.featured);
+---
+
+<Card colSpan="md:col-span-2" rowSpan="md:row-span-2" title="Featured Projects">
+  <div class="flex flex-col gap-4">
+    <p class="text-sm text-muted-foreground">Check out some of my recent work</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {featuredProjects.map(project => (
+        <ProjectCard project={project} />
+      ))}
+    </div>
+    
+    <div class="mt-4 text-center">
+      <a href="/projects" class="text-primary hover:underline">
+        View all projects →
+      </a>
+    </div>
+  </div>
+</Card>

@@ -1,15 +1,15 @@
 ---
-import { WORK } from '../lib/constants'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import TopLayout from '../layouts/TopLayout.astro'
 import BottomLayout from '../layouts/BottomLayout.astro'
 import ProjectCard from '../components/ProjectCard.astro'
+import { projects } from '../data/projects'
 
-// import { contentfulClient } from '../lib/contentful'
+// The Contentful imports and interface are kept for future reference
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer'
 import type { EntryFieldTypes } from 'contentful'
 
-interface Project {
+interface ContentfulProject {
   contentTypeId: 'Projects'
   fields: {
     name: EntryFieldTypes.Text
@@ -31,24 +31,23 @@ interface Project {
       <h2
         class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0"
       >
-        Projects and clone's
+        Projects and Work
       </h2>
+      <p class="mt-2 text-muted-foreground">A showcase of my recent projects and development work</p>
     </TopLayout>
     <BottomLayout>
-      <!-- <div class="flex w-full flex-wrap justify-center gap-2">
+      <div class="flex w-full flex-wrap justify-center gap-6">
         {
-          entries.items.map((entry: any) => (
-            <ProjectCard
-              key={entry?.sys?.id}
-              href={entry?.fields?.website}
-              heading={entry?.fields?.name}
-              subheading={entry?.fields?.description}
-              imagePath={entry?.fields?.img?.fields?.file.url}
-              altText={entry?.fields?.img?.fields.title}
-              class="w-full sm:w-2/5"
-            /> -->
+          projects.map((project) => (
+            <div class="w-full sm:w-[47%] lg:w-[31%] xl:w-[30%] mb-8 overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+              <ProjectCard project={project} />
+            </div>
           ))
         }
+      </div>
+      
+      <div class="text-center mt-12 text-sm text-muted-foreground">
+        <p>Website screenshots are automatically generated using the ScreenshotOne API</p>
       </div>
     </BottomLayout>
   </main>

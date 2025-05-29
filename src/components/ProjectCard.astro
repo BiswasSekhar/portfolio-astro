@@ -1,32 +1,61 @@
 ---
-import { Card as ShadcnCard } from './ui/card'
+import { Github, ExternalLink } from 'lucide-react';
+import { Button } from './ui/button';
+import type { Project } from '../data/projects';
+import { getScreenshotUrl } from '../data/projects';
+import { config } from '../lib/config';
 
-const {
-  as: Tag = 'a',
-  class: className,
-  href,
-  heading,
-  subheading,
-  imagePath,
-  altText,
-} = Astro.props
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+
+// Determine image source - use screenshot if specified and live URL exists
+const imageSource = project.useScreenshot && project.liveUrl 
+  ? getScreenshotUrl(project.liveUrl, config.screenshotOneApiKey)
+  : project.imageUrl;
 ---
 
-<Tag href={href} class={`${className}`} `>
-  <ShadcnCard
-    className={`transfor-y-[-40%] align-start perspective-1200 group relative flex-none transform justify-start overflow-hidden shadow-lg transition duration-75 ease-in-out ${href ? 'cursor-pointer hover:border-primary' : ''} `}
-  >
-    <img
-      src={imagePath}
-      alt={altText}
-      class="h-48 w-full rounded-2xl rounded-bl-none rounded-br-none object-cover"
-      loading="eager"
-    />
-    <div class="flex flex-col gap-y-0.5 px-5 py-4">
-      <h1 class="text-lg font-medium">{heading}</h1>
-      <h2 class="text-muted-foreground">{subheading}</h2>
+<div class="card bg-base-100 shadow-xl transition-all hover:shadow-2xl">
+  {imageSource && (
+    <figure>
+      <img 
+        src={imageSource} 
+        alt={`Screenshot of ${project.title}`} 
+        class="w-full h-48 object-cover"
+        loading="lazy" 
+      />
+    </figure>
+  )}
+  <div class="card-body">
+    <h2 class="card-title">{project.title}</h2>
+    <p class="text-sm text-muted-foreground">{project.description}</p>
+    
+    <div class="flex flex-wrap gap-1 mt-2">
+      {project.tags.map((tag) => (
+        <span class="badge badge-outline">{tag}</span>
+      ))}
     </div>
-
-    <slot />
-  </ShadcnCard>
-</Tag>
+    
+    <div class="card-actions justify-end mt-4">
+      {project.githubUrl && (
+        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+          <Button variant="outline" size="sm">
+            <Github class="h-4 w-4 mr-2" />
+            Code
+          </Button>
+        </a>
+      )}
+      
+      {project.liveUrl && (
+        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+          <Button size="sm">
+            <ExternalLink class="h-4 w-4 mr-2" />
+            Live Demo
+          </Button>
+        </a>
+      )}
+    </div>
+  </div>
+</div>

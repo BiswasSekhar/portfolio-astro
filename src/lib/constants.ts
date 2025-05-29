@@ -10,7 +10,7 @@ export const LINKS = {
   github: 'https://github.com/BiswasSekhar',
   linkedin: 'https://www.linkedin.com/in/biswas-sekhar',
   mail: 'mailto:biswas.siv@gmail.com',
-  instagram: 'https://www.instagram.com/_biswas_sekhar_/',
+  instagram: 'https://www.instagram.com/biswas_.sekhar/',
   // medium: 'https://ladvace.medium.com/',
   // discord: 'https://discordapp.com/users/163300027618295808',
 }
