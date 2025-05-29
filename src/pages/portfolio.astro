@@ -2,53 +2,131 @@
 import BaseLayout from '../layouts/BaseLayout.astro'
 import TopLayout from '../layouts/TopLayout.astro'
 import BottomLayout from '../layouts/BottomLayout.astro'
-import ProjectCard from '../components/ProjectCard.astro'
 import { projects } from '../data/projects'
-
-// The Contentful imports and interface are kept for future reference
-import { documentToHtmlString } from '@contentful/rich-text-html-renderer'
-import type { EntryFieldTypes } from 'contentful'
-
-interface ContentfulProject {
-  contentTypeId: 'Projects'
-  fields: {
-    name: EntryFieldTypes.Text
-    img: EntryFieldTypes.AssetLink
-    website: EntryFieldTypes.EntryResourceLink<any>
-    repositorio: EntryFieldTypes.EntryResourceLink<any>
-  }
-}
-
-// const entries = await contentfulClient.getEntries<Project>({})
 ---
 
-<BaseLayout
-  title="Portfolio"
-  description="Projects and some clone's that I did"
->
-  <main class="flex min-h-[80vh] flex-auto flex-col" transition:animate="slide">
+<BaseLayout title="Portfolio" description="My Projects">
+  <main class="flex min-h-[80vh] flex-auto flex-col">
     <TopLayout>
-      <h2
-        class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0"
-      >
-        Projects and Work
-      </h2>
-      <p class="mt-2 text-muted-foreground">A showcase of my recent projects and development work</p>
+      <h2 class="text-3xl font-bold animate-fade-in">My Projects</h2>
+      <p class="text-muted-foreground mt-2 animate-fade-in" style="animation-delay: 0.2s;">
+        A showcase of my recent work and development projects
+      </p>
     </TopLayout>
     <BottomLayout>
-      <div class="flex w-full flex-wrap justify-center gap-6">
-        {
-          projects.map((project) => (
-            <div class="w-full sm:w-[47%] lg:w-[31%] xl:w-[30%] mb-8 overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-              <ProjectCard project={project} />
+      <!-- Project grid with animations - Updated to 3 cards per row -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-7 max-w-7xl mx-auto">
+        {projects.map((project, index) => (
+          <div 
+            class="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 animate-card-appear"
+            style={`animation-delay: ${0.1 + index * 0.1}s`}
+          >
+            {project.imageUrl && (
+              <div class="overflow-hidden">
+                <img 
+                  src={project.imageUrl} 
+                  alt={project.title} 
+                  class="w-full h-52 object-cover transition-transform duration-500 hover:scale-105" 
+                />
+              </div>
+            )}
+            <div class="p-5">
+              <h3 class="font-bold text-lg">{project.title}</h3>
+              <p class="text-muted-foreground mt-2 text-sm line-clamp-3">{project.description}</p>
+              
+              <div class="flex flex-wrap gap-1.5 mt-3">
+                {project.tags.map(tag => (
+                  <span class="bg-muted px-2.5 py-1 rounded text-xs">{tag}</span>
+                ))}
+              </div>
+              
+              <div class="flex gap-2 mt-4">
+                {project.liveUrl && (
+                  <a 
+                    href={project.liveUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    class="px-3.5 py-1.5 bg-primary text-white rounded-md text-sm hover:bg-primary/90 transition-colors"
+                  >
+                    Live Demo
+                  </a>
+                )}
+                
+                {project.githubUrl && (
+                  <a 
+                    href={project.githubUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class="px-3.5 py-1.5 bg-muted text-primary rounded-md text-sm hover:bg-muted/80 transition-colors"
+                  >
+                    GitHub
+                  </a>
+                )}
+              </div>
             </div>
-          ))
-        }
-      </div>
-      
-      <div class="text-center mt-12 text-sm text-muted-foreground">
-        <p>Website screenshots are automatically generated using the ScreenshotOne API</p>
+          </div>
+        ))}
       </div>
     </BottomLayout>
   </main>
 </BaseLayout>
+
+<style>
+  /* Define animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideUp {
+    from { 
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Apply animations */
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+    opacity: 0;
+  }
+  
+  .animate-card-appear {
+    animation: slideUp 0.6s ease-out forwards;
+    opacity: 0;
+  }
+  
+  /* Add hover effects */
+  .border.rounded-lg {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .border.rounded-lg:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  }
+</style>
+
+<script>
+  // Intersection Observer for scroll-based animations
+  document.addEventListener('DOMContentLoaded', () => {
+    const animatedElements = document.querySelectorAll('.animate-card-appear');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Keep the animation applied by the style attribute
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    animatedElements.forEach(element => {
+      observer.observe(element);
+    });
+  });
+</script>
