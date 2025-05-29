@@ -40,14 +40,12 @@ export const projects: Project[] = [
     imageUrl: "/sarva.png",
     liveUrl: "https://sarvasikshaa.vercel.app/",
     githubUrl: "https://github.com/yourusername/sarvasiksha",
-    useScreenshot: false
   },{
     title: "KTU CGPA AND SGPA Calculator",
     description: "A web application for calculating CGPA and SGPA for KTU students.",
     tags: ["React", "Tailwind CSS"],
     imageUrl: "/ktu.png",
     liveUrl: "https://ktugrader.pages.dev/",
-    useScreenshot: false
   },
   {
     title: "Website For Keezhoor DB College",
@@ -56,7 +54,6 @@ export const projects: Project[] = [
     imageUrl: "/dbc.png",
     liveUrl: "https://keezhoordbc.vercel.app/",
     githubUrl: "https://github.com/yourusername/task-management",
-    useScreenshot: false
   },
   {
     title: "Website For GEOID UPSC Learning",
@@ -64,7 +61,6 @@ export const projects: Project[] = [
     tags: ["React", "Tailwind CSS"],
     imageUrl: "/geoid.png",
     liveUrl: "https://geoidacademy.vercel.app/",
-    useScreenshot: false
   },
   {
     title: "Batch Certificate Generator",
@@ -73,7 +69,6 @@ export const projects: Project[] = [
     imageUrl: "/certifie.png",
     liveUrl: "https://certifie.vercel.app/",
     githubUrl: "https://github.com/yourusername/blog",
-    useScreenshot: false
   },
   {
     title: "Website for VV Prefab",
@@ -82,6 +77,5 @@ export const projects: Project[] = [
     imageUrl: "/vv.png",
     liveUrl: "https://vvprefab-nclm.vercel.app/",
     githubUrl: "https://github.com/yourusername/vv-prefab",
-    useScreenshot: false
   }
 ];
